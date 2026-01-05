@@ -1,0 +1,31 @@
+@startuml
+title ERD Database IoT Sederhana
+hide circle
+skinparam linetype ortho
+
+entity "Perangkat" as dev {
+  *id_perangkat : VARCHAR(10) <<PK>>
+  --
+  nama_perangkat : VARCHAR(50)
+  lokasi : VARCHAR(50)
+  tanggal_pasang : DATE
+}
+
+entity "Log_Aktivitas" as logs {
+  *id_log : INT <<PK>>
+  --
+  id_perangkat : VARCHAR(10) <<FK>>
+  waktu_kejadian : DATETIME
+  status : ENUM('Buka', 'Tutup')
+  keterangan : TEXT
+}
+
+' Hubungan
+dev ||..|{ logs : "mencatat"
+
+note right of logs
+  Menyimpan data setiap kali
+  tutup sampah terbuka
+  (untuk tugas kuliah/analisa)
+end note
+@enduml
