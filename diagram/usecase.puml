@@ -1,26 +1,34 @@
 @startuml
 left to right direction
-title Use Case Tempat Sampah Otomatis (Tanpa IoT)
+title Use Case Diagram (User & Admin)
 
 actor "Pengguna" as User
+actor "Admin / Petugas" as Admin
 
-package "Sistem Tempat Sampah" {
+package "Sistem Tempat Sampah Pintar" {
   usecase "Mendeteksi Gerakan" as UC1
-  usecase "Membuka Tutup Sampah" as UC2
-  usecase "Menutup Secara Otomatis" as UC3
+  usecase "Membuka Tutup Otomatis" as UC2
+  usecase "Menutup Tutup Otomatis" as UC3
+  
+  usecase "Maintenance (Ganti Baterai/Komponen)" as UC4
+  usecase "Mengosongkan Sampah" as UC5
+  usecase "Ambil Log Data (SD Card)" as UC6
 }
 
-' Hubungan Actor dengan Use Case
+' Alur Pengguna
 User --> UC1 : Melambaikan Tangan
+UC1 ..> UC2 : <<include>>
+UC2 ..> UC3 : <<include>>
 
-' Hubungan antar Use Case (Include berarti prosesnya berurutan otomatis)
-UC1 ..> UC2 : <<include>> \n(Jika sensor mendeteksi)
-UC2 ..> UC3 : <<include>> \n(Setelah delay 3 detik)
+' Alur Admin
+Admin --> UC4 : Perawatan Berkala
+Admin --> UC5 : Saat Penuh
+Admin --> UC6 : Rekapitulasi Manual
 
-note bottom of UC1
-  Dilakukan otomatis
-  oleh sensor infrared
-  saat ada objek
+note right of Admin
+  Admin bertugas melakukan
+  tindakan fisik dan
+  pengambilan data lokal
 end note
 
 @enduml
