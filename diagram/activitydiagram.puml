@@ -1,33 +1,40 @@
 @startuml
+title Activity Diagram (User - Sistem - Admin)
+
 |Pengguna|
 start
 :Mendekati Tempat Sampah;
-:Melambaikan Tangan/Sampah;
+:Melambaikan Tangan;
 
 |Sistem (Alat)|
-:Sensor Mendeteksi Objek;
-:Servo Membuka Penutup;
-:Menunggu 3-5 Detik;
+:Sensor IR Mendeteksi Objek;
+:Servo Membuka Penutup (90°);
+:Delay (Tunggu 3-5 Detik);
 
 |Pengguna|
 :Membuang Sampah;
 
 |Sistem (Alat)|
-:Servo Menutup Penutup;
-:Standby Kembali;
+:Servo Menutup Penutup (0°);
+:Simpan Log Aktivitas ke SD Card;
+:Cek Kapasitas (Simulasi);
 
-|Petugas (Admin)|
-note right
-  Aktivitas ini manual
-  (Pemenuhan kriteria Admin)
-end note
-:Mengecek Sampah Penuh;
-if (Penuh?) then (Ya)
-  :Mengangkat & Mengosongkan Sampah;
-  :Mengganti Plastik Baru;
+if (Sampah Penuh?) then (Ya)
+  :Nyalakan Indikator LED Merah;
 else (Tidak)
-  :Lanjut Monitoring;
+  :Standby (LED Hijau);
+  stop
 endif
+
+|Admin (Petugas)|
+:Melihat Indikator Penuh;
+:Membuka Body Tempat Sampah;
+:Mengangkat Plastik Sampah;
+:Mengganti Plastik Baru;
+:Reset Sistem / Matikan-Nyalakan;
+
+|Sistem (Alat)|
+:Sistem Kembali Standby;
 
 stop
 @enduml
