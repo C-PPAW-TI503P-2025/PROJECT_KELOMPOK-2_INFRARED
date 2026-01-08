@@ -1,32 +1,37 @@
 @startuml
-title Sequence Diagram Alur Kerja Alat
+title Sequence Diagram - Proses Maintenance (Admin)
 
-actor "Pengguna" as User
-participant "Sensor IR" as Sensor
-participant "Mikrokontroler\n(Arduino/ESP32)" as MCU
-participant "Motor Servo" as Servo
+actor "Admin" as Adm
+participant "Tombol Power" as Switch
+participant "Mikrokontroler" as MCU
+participant "Indikator LED" as LED
 
-User -> Sensor : Melakukan Gerakan (Tangan/Sampah)
-activate Sensor
+Adm -> LED : Cek Status (Nyala Merah?)
+activate LED
+LED --> Adm : Konfirmasi Penuh
+deactivate LED
 
-Sensor -> MCU : Kirim Sinyal Digital (HIGH/LOW)
+Adm -> Switch : Matikan Alat (Power OFF)
+activate Switch
+Switch -> MCU : Cut Power
+deactivate MCU
+deactivate Switch
+
+note right of Adm
+  Admin melakukan pembersihan
+  fisik & ganti plastik
+end note
+
+Adm -> Switch : Nyalakan Alat (Power ON)
+activate Switch
+Switch -> MCU : Supply Power
 activate MCU
 
-alt Gerakan Terdeteksi
-    MCU -> Servo : Kirim Sinyal PWM (Sudut 90)
-    activate Servo
-    Servo -> Servo : Putar Tuas (Buka Lid)
-    User -> User : Masukkan Sampah
-    
-    MCU -> MCU : Delay(3000ms)
-    
-    MCU -> Servo : Kirim Sinyal PWM (Sudut 0)
-    Servo -> Servo : Putar Tuas (Tutup Lid)
-    deactivate Servo
-else Tidak Ada Gerakan
-    MCU -> MCU : Lanjut Loop Scanning
-end
+MCU -> MCU : Inisialisasi Sistem
+MCU -> LED : Nyalakan LED Hijau (Ready)
+activate LED
+deactivate LED
 
 deactivate MCU
-deactivate Sensor
+deactivate Switch
 @enduml
