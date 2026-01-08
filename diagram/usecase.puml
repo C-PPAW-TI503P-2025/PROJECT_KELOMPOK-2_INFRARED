@@ -1,0 +1,26 @@
+@startuml
+left to right direction
+title Use Case Tempat Sampah Otomatis (Tanpa IoT)
+
+actor "Pengguna" as User
+
+package "Sistem Tempat Sampah" {
+  usecase "Mendeteksi Gerakan" as UC1
+  usecase "Membuka Tutup Sampah" as UC2
+  usecase "Menutup Secara Otomatis" as UC3
+}
+
+' Hubungan Actor dengan Use Case
+User --> UC1 : Melambaikan Tangan
+
+' Hubungan antar Use Case (Include berarti prosesnya berurutan otomatis)
+UC1 ..> UC2 : <<include>> \n(Jika sensor mendeteksi)
+UC2 ..> UC3 : <<include>> \n(Setelah delay 3 detik)
+
+note bottom of UC1
+  Dilakukan otomatis
+  oleh sensor infrared
+  saat ada objek
+end note
+
+@enduml

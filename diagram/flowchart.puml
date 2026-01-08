@@ -1,0 +1,22 @@
+@startuml
+title Flowchart Sistem Tempat Sampah Otomatis
+
+start
+:Inisialisasi Pin Servo & Sensor;
+:Set Posisi Awal Servo (Tutup);
+
+repeat
+  :Baca Data Sensor Infrared;
+  if (Apakah ada gerakan?) then (YA)
+    :Kirim Sinyal ke Servo (Buka);
+    :Servo Bergerak 90 Derajat;
+    :Tunda (Delay) 3 Detik;
+    :Kirim Sinyal ke Servo (Tutup);
+    :Servo Kembali ke 0 Derajat;
+  else (TIDAK)
+    :Standby / Loop;
+  endif
+repeat while (Sistem Menyala)
+
+stop
+@enduml

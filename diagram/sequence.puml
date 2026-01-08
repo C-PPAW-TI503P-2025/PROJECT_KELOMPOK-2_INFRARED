@@ -1,0 +1,32 @@
+@startuml
+title Sequence Diagram Alur Kerja Alat
+
+actor "Pengguna" as User
+participant "Sensor IR" as Sensor
+participant "Mikrokontroler\n(Arduino/ESP32)" as MCU
+participant "Motor Servo" as Servo
+
+User -> Sensor : Melakukan Gerakan (Tangan/Sampah)
+activate Sensor
+
+Sensor -> MCU : Kirim Sinyal Digital (HIGH/LOW)
+activate MCU
+
+alt Gerakan Terdeteksi
+    MCU -> Servo : Kirim Sinyal PWM (Sudut 90)
+    activate Servo
+    Servo -> Servo : Putar Tuas (Buka Lid)
+    User -> User : Masukkan Sampah
+    
+    MCU -> MCU : Delay(3000ms)
+    
+    MCU -> Servo : Kirim Sinyal PWM (Sudut 0)
+    Servo -> Servo : Putar Tuas (Tutup Lid)
+    deactivate Servo
+else Tidak Ada Gerakan
+    MCU -> MCU : Lanjut Loop Scanning
+end
+
+deactivate MCU
+deactivate Sensor
+@enduml

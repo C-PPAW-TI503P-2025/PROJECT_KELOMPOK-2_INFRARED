@@ -1,0 +1,33 @@
+@startuml
+|Pengguna|
+start
+:Mendekati Tempat Sampah;
+:Melambaikan Tangan/Sampah;
+
+|Sistem (Alat)|
+:Sensor Mendeteksi Objek;
+:Servo Membuka Penutup;
+:Menunggu 3-5 Detik;
+
+|Pengguna|
+:Membuang Sampah;
+
+|Sistem (Alat)|
+:Servo Menutup Penutup;
+:Standby Kembali;
+
+|Petugas (Admin)|
+note right
+  Aktivitas ini manual
+  (Pemenuhan kriteria Admin)
+end note
+:Mengecek Sampah Penuh;
+if (Penuh?) then (Ya)
+  :Mengangkat & Mengosongkan Sampah;
+  :Mengganti Plastik Baru;
+else (Tidak)
+  :Lanjut Monitoring;
+endif
+
+stop
+@enduml
