@@ -1,13 +1,36 @@
-@startuml Flowchart_IR_Trash
+@startuml
+title Activity Diagram (Skenario Penuh)
 
-title Flowchart Sistem Monitoring Sampah
-
+|Pengguna|
 start
-:Deteksi sampah;
-:Kirim data ke backend;
-:Proses data;
-:Simpan data;
-:Tampilkan di dashboard;
-stop
+:Mendekati Tempat Sampah;
+:Melambaikan Tangan;
 
+|Hardware (ESP32)|
+:Sensor Mendeteksi Gerakan;
+:Membuka Penutup Sampah;
+:Mengirim Data ke Backend;
+:Menutup Penutup Kembali;
+
+|Backend (Node.js & SQLite)|
+:Menerima Request API;
+:Menyimpan Data ke 'trash_entries';
+
+|Pengguna|
+:Membuka Web Dashboard;
+
+|Web UI|
+:Meminta Data Terbaru;
+
+|Backend (Node.js & SQLite)|
+:Query Database (SELECT);
+:Mengirimkan Data JSON;
+
+|Web UI|
+:Menampilkan Grafik Batang;
+:Menampilkan Tabel Riwayat;
+
+|Pengguna|
+:Melihat Informasi Statistik;
+stop
 @enduml
