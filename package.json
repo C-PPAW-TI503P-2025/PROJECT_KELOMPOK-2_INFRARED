@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "repository": {
     "type": "git",
@@ -15,6 +19,13 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/C-PPAW-TI503P-2025/PROJECT_KELOMPOK-2_INFRARED/issues"
+  },
+  "dependencies": {
+  "next": "^14.2.0",
+  "react": "^18.2.0",
+  "react-dom": "^18.2.0",
+  "sequelize": "^6.37.0",
+  "sqlite3": "^5.1.7"
   },
   "homepage": "https://github.com/C-PPAW-TI503P-2025/PROJECT_KELOMPOK-2_INFRARED#readme"
 }
