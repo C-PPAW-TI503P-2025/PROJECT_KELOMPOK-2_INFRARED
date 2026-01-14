@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const path = require('path');
 require('dotenv').config();
 
 const { testConnection } = require('./config/database');
@@ -15,6 +16,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Serve static files dari folder frontend
+app.use(express.static(path.join(__dirname, '../frontend')));
+
 // Request logging middleware
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
@@ -22,7 +26,13 @@ app.use((req, res, next) => {
 });
 
 // Routes
+// Root route - serve dashboard
 app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/index.html'));
+});
+
+// API documentation endpoint
+app.get('/api', (req, res) => {
   res.json({
     message: 'IR Trash Monitoring API',
     version: '1.0.0',
@@ -62,14 +72,15 @@ const startServer = async () => {
   try {
     // Test database connection
     await testConnection();
-    
+
     // Sync database models
     await syncDatabase();
-    
+
     // Start server
     app.listen(PORT, () => {
       console.log(`🚀 Server is running on http://localhost:${PORT}`);
-      console.log(`📊 API Documentation available at http://localhost:${PORT}`);
+      console.log(`📊 Dashboard available at http://localhost:${PORT}`);
+      console.log(`📚 API Documentation available at http://localhost:${PORT}/api`);
     });
   } catch (error) {
     console.error('❌ Failed to start server:', error);
