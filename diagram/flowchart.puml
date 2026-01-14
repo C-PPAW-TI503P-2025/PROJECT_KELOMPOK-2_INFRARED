@@ -1,36 +1,40 @@
 @startuml
-title Activity Diagram (Skenario Penuh)
+title Flowchart Sistem (End-to-End)
 
-|Pengguna|
 start
-:Mendekati Tempat Sampah;
-:Melambaikan Tangan;
+:Nyalakan Perangkat (ESP32);
+:Koneksi ke Wi-Fi;
 
-|Hardware (ESP32)|
-:Sensor Mendeteksi Gerakan;
-:Membuka Penutup Sampah;
-:Mengirim Data ke Backend;
-:Menutup Penutup Kembali;
+partition "Looping Perangkat Keras" {
+  repeat
+    :Baca Status Sensor IR;
+    if (Objek Terdeteksi?) then (YA)
+      :Buka Servo (90 Derajat);
+      
+      :Siapkan Data JSON
+      (sensor_id, count, notes);
+      
+      :Kirim HTTP POST ke Server;
+      
+      if (Sukses Terkirim?) then (YA)
+        :Log Serial: Sukses;
+      else (TIDAK)
+        :Log Serial: Gagal;
+      endif
+      
+      :Delay 3 Detik;
+      :Tutup Servo (0 Derajat);
+    else (TIDAK)
+      :Standby (Tunggu Gerakan);
+    endif
+  repeat while (Alat Hidup)
+}
 
-|Backend (Node.js & SQLite)|
-:Menerima Request API;
-:Menyimpan Data ke 'trash_entries';
+partition "Logika Server" {
+  :Terima Data API;
+  :Simpan ke Tabel 'trash_entries';
+  :Update Dashboard;
+}
 
-|Pengguna|
-:Membuka Web Dashboard;
-
-|Web UI|
-:Meminta Data Terbaru;
-
-|Backend (Node.js & SQLite)|
-:Query Database (SELECT);
-:Mengirimkan Data JSON;
-
-|Web UI|
-:Menampilkan Grafik Batang;
-:Menampilkan Tabel Riwayat;
-
-|Pengguna|
-:Melihat Informasi Statistik;
 stop
 @enduml

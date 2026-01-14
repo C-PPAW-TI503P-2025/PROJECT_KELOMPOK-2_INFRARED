@@ -1,7 +1,7 @@
 @startuml
-title Class Diagram (Sequelize Model & Hardware)
+title Class Diagram (Hardware & Backend Model)
 
-package "Backend System" {
+package "Backend System (Node.js)" {
     class TrashEntry {
         + id: Integer <<PK, AutoIncrement>>
         + sensor_id: String(50)
@@ -15,7 +15,6 @@ package "Backend System" {
         --
         + create(data)
         + findAll(options)
-        + findAndCountAll(options)
     }
 
     class DatabaseConnection {
@@ -26,7 +25,7 @@ package "Backend System" {
     }
 }
 
-package "Hardware (IoT Device)" {
+package "Hardware (Firmware)" {
     class ESP32_Client {
         - sensorPin: int
         - wifiClient: WiFiClient
@@ -37,12 +36,11 @@ package "Hardware (IoT Device)" {
 
 ' Hubungan
 DatabaseConnection "1" --> "*" TrashEntry : Mengelola Model >
-ESP32_Client ..> TrashEntry : Mengirim Data Deteksi >
+ESP32_Client ..> TrashEntry : Mengirim Data via API >
 
 note right of TrashEntry
   Model data yang merepresentasikan
   entitas log riwayat deteksi sampah
   dalam basis data (SQLite).
 end note
-
 @enduml
