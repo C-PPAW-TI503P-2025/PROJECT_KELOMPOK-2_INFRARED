@@ -1,33 +1,48 @@
-@startuml Class_IR_Trash
+@startuml
+title Class Diagram (Sequelize Model & Hardware)
 
-title Class Diagram IR Trash Monitoring System
+package "Backend System" {
+    class TrashEntry {
+        + id: Integer <<PK, AutoIncrement>>
+        + sensor_id: String(50)
+        + count: Integer <<Default: 1>>
+        + timestamp: Date
+        + date: DateOnly
+        + sensor_status: Text <<Default: 'active'>>
+        + notes: Text
+        + created_at: Date
+        + updated_at: Date
+        --
+        + create(data)
+        + findAll(options)
+        + findAndCountAll(options)
+    }
 
-class Sensor {
-  idSensor
-  status
-  mendeteksiSampah()
-  kirimData()
+    class DatabaseConnection {
+        - storage: String
+        - dialect: String
+        + authenticate()
+        + sync()
+    }
 }
 
-class BackendAPI {
-  menerimaData()
-  memprosesData()
-  mengirimData()
+package "Hardware (IoT Device)" {
+    class ESP32_Client {
+        - sensorPin: int
+        - wifiClient: WiFiClient
+        + detectObject(): bool
+        + sendPostRequest(sensor_id, count, notes)
+    }
 }
 
-class Database {
-  simpanData()
-  ambilData()
-}
+' Hubungan
+DatabaseConnection "1" --> "*" TrashEntry : Mengelola Model >
+ESP32_Client ..> TrashEntry : Mengirim Data Deteksi >
 
-class WebDashboard {
-  tampilkanData()
-  tampilkanGrafik()
-}
-
-Sensor --> BackendAPI : kirim data
-BackendAPI --> Database : simpan / ambil
-WebDashboard --> BackendAPI : request data
-BackendAPI --> WebDashboard : response data
+note right of TrashEntry
+  Model data yang merepresentasikan
+  entitas log riwayat deteksi sampah
+  dalam basis data (SQLite).
+end note
 
 @enduml

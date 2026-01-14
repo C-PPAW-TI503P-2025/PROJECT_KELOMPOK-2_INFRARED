@@ -1,14 +1,10 @@
-@startuml UseCase_IR_Trash
-
-title Use Case IR Trash Monitoring System
+@startuml
+title Use Case Diagram Trash Monitoring System
 
 actor User
 
-rectangle Sistem {
-  User --> (Melihat Dashboard)
-  User --> (Melihat Grafik)
-  User --> (Melihat Riwayat Deteksi)
-  User --> (Memfilter Data Sensor)
-}
+User --> (Melihat Dashboard)
+User --> (Melihat Data Deteksi)
+User --> (Melihat Riwayat Deteksi)
 
 @enduml

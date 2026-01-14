@@ -1,16 +1,27 @@
-@startuml Arsitektur_IR_Trash
+@startuml
+!theme plain
+title Arsitektur Sistem (Model Komponen)
 
-title Arsitektur IR Trash Monitoring System
+package "IoT Device (Perangkat)" {
+    component "Sensor IR" as Sensor
+    component "ESP32 Controller" as ESP
+    component "Servo Motor" as Servo
+}
 
-rectangle Sensor
-rectangle BackendAPI
-rectangle WebDashboard
-database Database
+package "Server Side (Backend)" {
+    component "Node.js API" as Backend
+    database "SQLite\n(trash_monitoring.db)" as DB
+}
 
-Sensor --> BackendAPI : kirim data
-BackendAPI --> Database : simpan data
-Database --> BackendAPI : ambil data
-WebDashboard --> BackendAPI : request data
-BackendAPI --> WebDashboard : response data
+package "Client Side (Frontend)" {
+    component "Web Dashboard" as Dashboard
+}
+
+' Relasi
+Sensor -> ESP : Input Sinyal
+ESP -> Servo : Kontrol Mekanik
+ESP -down-> Backend : Kirim Data (HTTP POST)
+Backend -right-> DB : Simpan & Baca Data
+Dashboard -left-> Backend : Request Data JSON
 
 @enduml

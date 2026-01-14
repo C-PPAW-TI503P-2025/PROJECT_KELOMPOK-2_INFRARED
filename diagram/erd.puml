@@ -1,18 +1,32 @@
-@startuml ERD_IR_Trash
+@startuml
+left to right direction
+title Use Case Diagram (Pengguna Tunggal)
 
-title ERD IR Trash Monitoring System
+actor "Pengguna" as User
 
-entity Sensor {
-  id_sensor
-  lokasi
+rectangle "Sistem Monitoring Sampah" {
+  ' Aksi Fisik
+  usecase "Membuang Sampah" as UC1
+  usecase "Deteksi & Simpan Otomatis" as UC2
+  
+  ' Aksi Web
+  usecase "Monitoring Dashboard" as UC3
+  usecase "Filter ID Sensor" as UC4
+  usecase "Lihat Grafik Statistik" as UC5
+  usecase "Lihat Tabel Riwayat" as UC6
 }
 
-entity Deteksi {
-  id_deteksi
-  waktu
-  status_sampah
-}
+' Relasi
+User --> UC1 : Interaksi Fisik
+UC1 ..> UC2 : <<include>> \n(Otomatis)
 
-Sensor ||--o{ Deteksi : menghasilkan
+User --> UC3 : Interaksi Web
+UC3 ..> UC4 : <<include>>
+UC3 ..> UC5 : <<include>>
+UC3 ..> UC6 : <<include>>
 
+note right of UC6
+  Menampilkan detail data:
+  ID, Waktu, Jumlah, Catatan
+end note
 @enduml
