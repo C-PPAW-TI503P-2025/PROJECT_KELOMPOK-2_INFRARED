@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IR Trash Monitoring</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>IR Trash Monitoring System</h1>
+
+        <!-- Filter & Refresh -->
+        <div class="controls">
+            <label>Filter Sensor:</label>
+            <select id="sensorFilter">
+                <option value="">Semua Sensor</option>
+                <option value="BIN-01">BIN-01</option>
+                <option value="BIN-02">BIN-02</option>
+                <option value="BIN-03">BIN-03</option>
+            </select>
+            <button id="refreshBtn">Refresh</button>
+            <span id="lastUpdate">Last update: -</span>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats">
+            <div class="stat-box">
+                <h3>Hari Ini</h3>
+                <p id="todayCount">-</p>
+            </div>
+            <div class="stat-box">
+                <h3>Total</h3>
+                <p id="totalCount">-</p>
+            </div>
+            <div class="stat-box">
+                <h3>Entry Hari Ini</h3>
+                <p id="todayEntries">-</p>
+            </div>
+            <div class="stat-box">
+                <h3>Total Entry</h3>
+                <p id="totalEntries">-</p>
+            </div>
+        </div>
+
+        <!-- Chart -->
+        <div class="chart-box">
+            <h2>Grafik 7 Hari Terakhir</h2>
+            <canvas id="weeklyChart"></canvas>
+        </div>
+
+        <!-- Table -->
+        <div class="table-box">
+            <h2>Riwayat Deteksi</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Sensor ID</th>
+                        <th>Tanggal</th>
+                        <th>Waktu</th>
+                        <th>Count</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    <tr>
+                        <td colspan="6">Loading...</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button id="prevPage" disabled>Previous</button>
+                <span id="pageInfo">Page 1 of 1</span>
+                <button id="nextPage" disabled>Next</button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>API Status: <span id="apiStatus">Disconnected</span></p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,6 +1,16 @@
 const { Sequelize } = require('sequelize');
+const path = require('path');
 require('dotenv').config();
 
+// Gunakan SQLite untuk development (lebih mudah, tidak perlu setup MySQL)
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: path.join(__dirname, '../trash_monitoring.db'),
+  logging: false
+});
+
+// Jika mau pakai MySQL, uncomment code di bawah dan comment code SQLite di atas
+/*
 const sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,
@@ -18,6 +28,7 @@ const sequelize = new Sequelize(
     }
   }
 );
+*/
 
 const testConnection = async () => {
   try {
