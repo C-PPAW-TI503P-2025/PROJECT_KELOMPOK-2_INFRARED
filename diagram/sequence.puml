@@ -1,37 +1,17 @@
-@startuml
-title Sequence Diagram - Proses Maintenance (Admin)
+@startuml Sequence_IR_Trash
 
-actor "Admin" as Adm
-participant "Tombol Power" as Switch
-participant "Mikrokontroler" as MCU
-participant "Indikator LED" as LED
+title Sequence Monitoring Sampah
 
-Adm -> LED : Cek Status (Nyala Merah?)
-activate LED
-LED --> Adm : Konfirmasi Penuh
-deactivate LED
+actor User
+participant WebDashboard
+participant BackendAPI
+participant Database
 
-Adm -> Switch : Matikan Alat (Power OFF)
-activate Switch
-Switch -> MCU : Cut Power
-deactivate MCU
-deactivate Switch
+User -> WebDashboard : buka dashboard
+WebDashboard -> BackendAPI : request data
+BackendAPI -> Database : ambil data
+Database -> BackendAPI : kirim data
+BackendAPI -> WebDashboard : response data
+WebDashboard -> User : tampilkan data
 
-note right of Adm
-  Admin melakukan pembersihan
-  fisik & ganti plastik
-end note
-
-Adm -> Switch : Nyalakan Alat (Power ON)
-activate Switch
-Switch -> MCU : Supply Power
-activate MCU
-
-MCU -> MCU : Inisialisasi Sistem
-MCU -> LED : Nyalakan LED Hijau (Ready)
-activate LED
-deactivate LED
-
-deactivate MCU
-deactivate Switch
 @enduml

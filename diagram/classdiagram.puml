@@ -1,34 +1,33 @@
-@startuml
-title Class Diagram (Tanpa IoT)
+@startuml Class_IR_Trash
 
-class TempatSampah {
-    - pin_sensor: Integer
-    - pin_servo: Integer
-    + setup()
-    + loop()
+title Class Diagram IR Trash Monitoring System
+
+class Sensor {
+  idSensor
+  status
+  mendeteksiSampah()
+  kirimData()
 }
 
-class SensorInfrared {
-    - pin: Integer
-    + baca_status(): Boolean
+class BackendAPI {
+  menerimaData()
+  memprosesData()
+  mengirimData()
 }
 
-class MotorServo {
-    - pin: Integer
-    - sudut: Integer
-    + gerak(derajat)
+class Database {
+  simpanData()
+  ambilData()
 }
 
-' Hubungan
-TempatSampah *-- SensorInfrared : menggunakan
-TempatSampah *-- MotorServo : mengendalikan
+class WebDashboard {
+  tampilkanData()
+  tampilkanGrafik()
+}
 
-note right of TempatSampah::loop
-  Logika Loop:
-  if (sensor.baca_status() == TRUE) {
-      servo.gerak(90); // Buka
-      delay(3000);
-      servo.gerak(0);  // Tutup
-  }
-end note
+Sensor --> BackendAPI : kirim data
+BackendAPI --> Database : simpan / ambil
+WebDashboard --> BackendAPI : request data
+BackendAPI --> WebDashboard : response data
+
 @enduml

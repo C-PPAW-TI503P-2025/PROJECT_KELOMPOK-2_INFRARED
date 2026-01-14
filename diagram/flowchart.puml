@@ -1,22 +1,13 @@
-@startuml
-title Flowchart Sistem Tempat Sampah Otomatis
+@startuml Flowchart_IR_Trash
+
+title Flowchart Sistem Monitoring Sampah
 
 start
-:Inisialisasi Pin Servo & Sensor;
-:Set Posisi Awal Servo (Tutup);
-
-repeat
-  :Baca Data Sensor Infrared;
-  if (Apakah ada gerakan?) then (YA)
-    :Kirim Sinyal ke Servo (Buka);
-    :Servo Bergerak 90 Derajat;
-    :Tunda (Delay) 3 Detik;
-    :Kirim Sinyal ke Servo (Tutup);
-    :Servo Kembali ke 0 Derajat;
-  else (TIDAK)
-    :Standby / Loop;
-  endif
-repeat while (Sistem Menyala)
-
+:Deteksi sampah;
+:Kirim data ke backend;
+:Proses data;
+:Simpan data;
+:Tampilkan di dashboard;
 stop
+
 @enduml

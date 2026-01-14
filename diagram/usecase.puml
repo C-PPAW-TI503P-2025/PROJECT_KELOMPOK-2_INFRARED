@@ -1,34 +1,14 @@
-@startuml
-left to right direction
-title Use Case Diagram (User & Admin)
+@startuml UseCase_IR_Trash
 
-actor "Pengguna" as User
-actor "Admin / Petugas" as Admin
+title Use Case IR Trash Monitoring System
 
-package "Sistem Tempat Sampah Pintar" {
-  usecase "Mendeteksi Gerakan" as UC1
-  usecase "Membuka Tutup Otomatis" as UC2
-  usecase "Menutup Tutup Otomatis" as UC3
-  
-  usecase "Maintenance (Ganti Baterai/Komponen)" as UC4
-  usecase "Mengosongkan Sampah" as UC5
-  usecase "Ambil Log Data (SD Card)" as UC6
+actor User
+
+rectangle Sistem {
+  User --> (Melihat Dashboard)
+  User --> (Melihat Grafik)
+  User --> (Melihat Riwayat Deteksi)
+  User --> (Memfilter Data Sensor)
 }
-
-' Alur Pengguna
-User --> UC1 : Melambaikan Tangan
-UC1 ..> UC2 : <<include>>
-UC2 ..> UC3 : <<include>>
-
-' Alur Admin
-Admin --> UC4 : Perawatan Berkala
-Admin --> UC5 : Saat Penuh
-Admin --> UC6 : Rekapitulasi Manual
-
-note right of Admin
-  Admin bertugas melakukan
-  tindakan fisik dan
-  pengambilan data lokal
-end note
 
 @enduml
