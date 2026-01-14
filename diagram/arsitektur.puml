@@ -1,4 +1,4 @@
-@startuml Arsitektur_IR_Trash
+@startuml Arsitektur_IR_Trash_Monitoring
 
 title Arsitektur IR Trash Monitoring System
 
@@ -7,9 +7,9 @@ rectangle BackendAPI
 rectangle WebDashboard
 database Database
 
-Sensor --> BackendAPI : kirim data
-BackendAPI --> Database : simpan data
-Database --> BackendAPI : ambil data
+Sensor --> BackendAPI : send data
+BackendAPI --> Database : store data
+Database --> BackendAPI : get data
 WebDashboard --> BackendAPI : request data
 BackendAPI --> WebDashboard : response data
 
