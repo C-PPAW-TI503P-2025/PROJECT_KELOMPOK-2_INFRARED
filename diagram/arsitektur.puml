@@ -1,33 +1,16 @@
-@startuml
-!theme plain
-title Arsitektur Sistem Tempat Sampah Otomatis (Standalone)
+@startuml Arsitektur_IR_Trash
 
-package "Perangkat Keras (Hardware)" {
-    [Sensor Infrared] as Sensor
-    [Motor Servo] as Servo
-    [Mikrokontroler\n(ESP32/Arduino)] as MCU
-    [Sumber Daya\n(Baterai/Adaptor)] as Power
-}
+title Arsitektur IR Trash Monitoring System
 
-package "Lingkungan Fisik" {
-    [Pengguna / Tangan] as User
-}
+rectangle Sensor
+rectangle BackendAPI
+rectangle WebDashboard
+database Database
 
-' Alur
-Power --> MCU : Suplai Listrik
-User --> Sensor : Gerakan Terdeteksi (Ada objek)
-Sensor --> MCU : Kirim Sinyal Digital (LOW/HIGH)
-MCU --> Servo : Kirim Sinyal PWM (Perintah Buka)
-
-note bottom of MCU
-  Memproses logika:
-  Jika ada gerakan -> Buka
-  Tunggu 3-5 detik -> Tutup
-end note
-
-note right of Servo
-  Mengerakkan Tuas
-  Tutup Sampah
-end note
+Sensor --> BackendAPI : kirim data
+BackendAPI --> Database : simpan data
+Database --> BackendAPI : ambil data
+WebDashboard --> BackendAPI : request data
+BackendAPI --> WebDashboard : response data
 
 @enduml
