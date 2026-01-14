@@ -1,40 +1,14 @@
-@startuml
-title Activity Diagram (User - Sistem - Admin)
+@startuml Activity_IR_Trash
 
-|Pengguna|
+title Activity Diagram Monitoring Sampah
+
 start
-:Mendekati Tempat Sampah;
-:Melambaikan Tangan;
-
-|Sistem (Alat)|
-:Sensor IR Mendeteksi Objek;
-:Servo Membuka Penutup (90°);
-:Delay (Tunggu 3-5 Detik);
-
-|Pengguna|
-:Membuang Sampah;
-
-|Sistem (Alat)|
-:Servo Menutup Penutup (0°);
-:Simpan Log Aktivitas ke SD Card;
-:Cek Kapasitas (Simulasi);
-
-if (Sampah Penuh?) then (Ya)
-  :Nyalakan Indikator LED Merah;
-else (Tidak)
-  :Standby (LED Hijau);
-  stop
-endif
-
-|Admin (Petugas)|
-:Melihat Indikator Penuh;
-:Membuka Body Tempat Sampah;
-:Mengangkat Plastik Sampah;
-:Mengganti Plastik Baru;
-:Reset Sistem / Matikan-Nyalakan;
-
-|Sistem (Alat)|
-:Sistem Kembali Standby;
-
+:Sensor mendeteksi sampah;
+:Kirim data ke backend;
+:Proses data;
+:Simpan ke database;
+:User membuka dashboard;
+:Tampilkan data;
 stop
+
 @enduml

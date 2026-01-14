@@ -1,31 +1,18 @@
-@startuml
-title ERD Database IoT Sederhana
-hide circle
-skinparam linetype ortho
+@startuml ERD_IR_Trash
 
-entity "Perangkat" as dev {
-  *id_perangkat : VARCHAR(10) <<PK>>
-  --
-  nama_perangkat : VARCHAR(50)
-  lokasi : VARCHAR(50)
-  tanggal_pasang : DATE
+title ERD IR Trash Monitoring System
+
+entity Sensor {
+  id_sensor
+  lokasi
 }
 
-entity "Log_Aktivitas" as logs {
-  *id_log : INT <<PK>>
-  --
-  id_perangkat : VARCHAR(10) <<FK>>
-  waktu_kejadian : DATETIME
-  status : ENUM('Buka', 'Tutup')
-  keterangan : TEXT
+entity Deteksi {
+  id_deteksi
+  waktu
+  status_sampah
 }
 
-' Hubungan
-dev ||..|{ logs : "mencatat"
+Sensor ||--o{ Deteksi : menghasilkan
 
-note right of logs
-  Menyimpan data setiap kali
-  tutup sampah terbuka
-  (untuk tugas kuliah/analisa)
-end note
 @enduml
