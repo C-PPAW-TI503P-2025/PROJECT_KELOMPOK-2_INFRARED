@@ -1,0 +1,20 @@
+{
+  "name": "project_kelompok-2_infrared",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/C-PPAW-TI503P-2025/PROJECT_KELOMPOK-2_INFRARED.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/C-PPAW-TI503P-2025/PROJECT_KELOMPOK-2_INFRARED/issues"
+  },
+  "homepage": "https://github.com/C-PPAW-TI503P-2025/PROJECT_KELOMPOK-2_INFRARED#readme"
+}
