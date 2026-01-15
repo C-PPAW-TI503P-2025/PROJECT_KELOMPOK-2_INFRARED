@@ -1,32 +1,23 @@
 @startuml
-left to right direction
-title Use Case Diagram (Pengguna Tunggal)
+title ERD - Skema Database SQLite
+hide circle
+skinparam linetype ortho
 
-actor "Pengguna" as User
-
-rectangle "Sistem Monitoring Sampah" {
-  ' Aksi Fisik
-  usecase "Membuang Sampah" as UC1
-  usecase "Deteksi & Simpan Otomatis" as UC2
-  
-  ' Aksi Web
-  usecase "Monitoring Dashboard" as UC3
-  usecase "Filter ID Sensor" as UC4
-  usecase "Lihat Grafik Statistik" as UC5
-  usecase "Lihat Tabel Riwayat" as UC6
+entity "trash_entries" as table {
+  *id : INTEGER <<PK, AutoIncrement>>
+  --
+  sensor_id : VARCHAR(50) <<Not Null>>
+  count : INTEGER <<Default 1>>
+  timestamp : DATETIME <<Not Null>>
+  date : DATE <<Not Null>>
+  sensor_status : TEXT <<Default 'active'>>
+  notes : TEXT
+  created_at : DATETIME
+  updated_at : DATETIME
 }
 
-' Relasi
-User --> UC1 : Interaksi Fisik
-UC1 ..> UC2 : <<include>> \n(Otomatis)
-
-User --> UC3 : Interaksi Web
-UC3 ..> UC4 : <<include>>
-UC3 ..> UC5 : <<include>>
-UC3 ..> UC6 : <<include>>
-
-note right of UC6
-  Menampilkan detail data:
-  ID, Waktu, Jumlah, Catatan
+note bottom of table
+  Tabel utama untuk menyimpan seluruh
+  riwayat deteksi sampah dari sensor.
 end note
 @enduml
