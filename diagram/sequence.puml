@@ -1,40 +1,45 @@
 @startuml
-title Flowchart Sistem (End-to-End)
+title Sequence Diagram (Alur Deteksi & Penyimpanan)
 
-start
-:Nyalakan Perangkat (ESP32);
-:Koneksi ke Wi-Fi;
+actor "Pengguna" as User
+participant "Sensor & Servo" as HW
+participant "ESP32 Controller" as MCU
+participant "Node.js Server" as Server
+participant "SQLite DB" as DB
+participant "Web Dashboard" as Web
 
-partition "Looping Perangkat Keras" {
-  repeat
-    :Baca Status Sensor IR;
-    if (Objek Terdeteksi?) then (YA)
-      :Buka Servo (90 Derajat);
-      
-      :Siapkan Data JSON
-      (sensor_id, count, notes);
-      
-      :Kirim HTTP POST ke Server;
-      
-      if (Sukses Terkirim?) then (YA)
-        :Log Serial: Sukses;
-      else (TIDAK)
-        :Log Serial: Gagal;
-      endif
-      
-      :Delay 3 Detik;
-      :Tutup Servo (0 Derajat);
-    else (TIDAK)
-      :Standby (Tunggu Gerakan);
-    endif
-  repeat while (Alat Hidup)
-}
+' Sesi Deteksi
+User -> HW : Membuang Sampah
+activate HW
+HW -> MCU : Sinyal Deteksi (Ada Objek)
+activate MCU
 
-partition "Logika Server" {
-  :Terima Data API;
-  :Simpan ke Tabel 'trash_entries';
-  :Update Dashboard;
-}
+MCU -> HW : Perintah Buka Servo
+MCU -> Server : HTTP POST /api/trash
+activate Server
 
-stop
+Server -> DB : INSERT INTO trash_entries
+activate DB
+DB --> Server : Data Tersimpan
+deactivate DB
+
+Server --> MCU : Response 200 OK
+deactivate Server
+MCU -> HW : Perintah Tutup Servo
+deactivate MCU
+deactivate HW
+
+' Sesi Monitoring
+User -> Web : Buka Dashboard
+activate Web
+Web -> Server : Request Data Terbaru
+activate Server
+Server -> DB : SELECT * FROM trash_entries
+activate DB
+DB --> Server : Return Data JSON
+deactivate DB
+Server --> Web : Kirim Data
+deactivate Server
+Web -> Web : Render Grafik & Tabel
+
 @enduml
